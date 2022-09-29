@@ -1,5 +1,6 @@
+import uniqid from 'uniqid';
 export class Order {
-  private readonly _id = Math.random() * 9999;
+  private readonly _id = uniqid();
   private readonly created_at = new Date();
 
   constructor(
