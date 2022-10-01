@@ -1,4 +1,5 @@
-import uniqid from 'uniqid';
+import uniqid from "uniqid";
+import { OrderError } from "./order_error";
 export class Order {
   private readonly _id = uniqid();
   private readonly created_at = new Date();
@@ -12,20 +13,40 @@ export class Order {
     public payment_method: string
   ) {
     if (items.length <= 0) {
-      throw new Error("Cannot create an order without items to order");
+      throw new OrderError(
+        "Cannot create an order without items to order",
+        "No items",
+        "Error on instantiating an Order object without items",
+        new Error().stack
+      );
     }
-    Object.values(client.location).forEach((value) => {
-      if (!value) {
-        throw new Error("Invalid location");
-      }
-    });
     Object.values(client).forEach((value) => {
       if (!value) {
-        throw new Error("Invalid user");
+        throw new OrderError(
+          "Your client is not valid, check your data",
+          "Invalid user",
+          "Tried to instantiate an Order object with an invalid client",
+          new Error().stack
+        );
+      }
+    });
+    Object.values(client.location).forEach((value) => {
+      if (!value) {
+        throw new OrderError(
+          "This location is not valid, check your data",
+          "Invalid location",
+          "Tried to instantiate an Order object with invalid location",
+          new Error().stack
+        );
       }
     });
     if (!payment_method) {
-      throw new Error("Insert a payment method");
+      throw new OrderError(
+        "Insert a payment method",
+        "Invalid payment",
+        "Tried to instantiate and Order object with invalid payment_method",
+        new Error().stack
+      );
     }
   }
   get id() {

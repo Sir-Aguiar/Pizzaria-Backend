@@ -1,5 +1,6 @@
 import { isEqual } from "lodash";
 import { Order } from "../entities/order";
+import { OrderError } from "../entities/order_error";
 
 export class CreateOrder {
   constructor(private readonly order: Order, orderRepository: Order[]) {
@@ -14,11 +15,22 @@ export class CreateOrder {
         bairro: orderData.client.location.bairro,
         casa: orderData.client.location.casa,
       };
+
       if (orderData.client.phone === order.client.phone) {
-        throw new Error("The same client can't make more than one order");
+        throw new OrderError(
+          "This client is not avaible to make another order",
+          "Unavaliable client",
+          "The same client can't make more than one order",
+          new Error().stack
+        );
       }
       if (isEqual(repoLocationForCheck, orderLocationForCheck)) {
-        throw new Error("Can't have more than two orders to the same address");
+        throw new OrderError(
+          "This location has already an order attached",
+          "Unavaliable location",
+          "Can't have more than two orders to the same address",
+          new Error().stack
+        );
       }
     });
   }

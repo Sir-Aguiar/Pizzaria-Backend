@@ -1,5 +1,6 @@
 import { it, test, expect } from "vitest";
 import { Order } from "./order";
+import { OrderError } from "./order_error";
 test("Shoudn't be able to create with empty items", () => {
   expect(
     () =>
@@ -21,7 +22,7 @@ test("Shoudn't be able to create with empty items", () => {
         [],
         "Dinheiro, troco pra R$ 50"
       )
-  ).toThrowError("Cannot create an order without items to order");
+  ).toThrowError(OrderError);
 });
 test("Shoudn't create without proper user", () => {
   expect(
@@ -44,7 +45,7 @@ test("Shoudn't create without proper user", () => {
         ["a", "a"],
         "Dinheiro, troco pra R$ 50"
       )
-  ).toThrowError("Invalid location");
+  ).toThrowError(OrderError);
 });
 
 test("Shoudn't create without proper user", () => {
@@ -68,7 +69,7 @@ test("Shoudn't create without proper user", () => {
         ["a", "a"],
         "Dinheiro, troco pra R$ 50"
       )
-  ).toThrowError("Invalid user");
+  ).toThrowError(OrderError);
 });
 
 test("Shoudn't create without proper user", () => {
@@ -92,7 +93,7 @@ test("Shoudn't create without proper user", () => {
         ["a", "a"],
         ""
       )
-  ).toThrowError("Insert a payment method");
+  ).toThrowError(OrderError);
 });
 
 test("Shoud be able to instanciate an Order", () => {
