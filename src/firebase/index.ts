@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import 'dotenv/config'
-const app = initializeApp({
+const firebase_app = initializeApp({
   apiKey: process.env.APIKEY,
   appId: process.env.APPID,
   authDomain: process.env.AUTHDOMAIN,
@@ -10,5 +10,5 @@ const app = initializeApp({
   projectId: process.env.PROJECTID,
   storageBucket: process.env.STORAGEBUCKET,
 });
-const DB = getFirestore(app);
-export { app, DB };
+const DB = getFirestore(firebase_app);
+export { firebase_app, DB };
