@@ -7,7 +7,7 @@ export class Order {
   constructor(
     public price: number,
     public delivery: number,
-    public status: 0 | 1 | -1,
+    public status: -1 | 0 | 1 | 2 | -2,
     public client: Client,
     public items: string[],
     public payment_method: string

@@ -11,3 +11,6 @@ declare interface Client {
   phone: string;
   location: Locale;
 }
+declare interface EmployeeCredential {
+  name: string;
+}
