@@ -9,7 +9,7 @@ export class Order {
     public delivery: number,
     public status: 0 | 1 | -1,
     public client: Client,
-    public items: any[],
+    public items: string[],
     public payment_method: string
   ) {
     if (items.length <= 0) {
