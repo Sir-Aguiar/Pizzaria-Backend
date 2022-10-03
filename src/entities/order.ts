@@ -1,16 +1,15 @@
-import uniqid from "uniqid";
 import { OrderError } from "./order_error";
 export class Order {
   private readonly created_at = new Date();
 
   constructor(
-    public price: number,
+    public items_price: number,
     public delivery: number,
     public status: -1 | 0 | 1 | 2 | -2,
     public client: Client,
     public items: string[],
     public payment_method: string,
-    private readonly _id:string
+    private readonly _id: string
   ) {
     if (items.length <= 0) {
       throw new OrderError(

@@ -1,9 +1,8 @@
 import { Router } from "express";
+import { CreateOrderController } from "./controllers/CreateOrderController";
 
 const routes = Router();
 
-routes.get("/", (req, res) => {
-  res.send("HELLO");
-});
+routes.post("/create-order", CreateOrderController);
 
 export { routes };

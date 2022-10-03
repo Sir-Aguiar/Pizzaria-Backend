@@ -49,25 +49,3 @@ export class CreateOrder {
     return insertedOrder;
   }
 }
-
-const testRepo = getDocs(collection(DB, "Orders")) as Promise<QuerySnapshot<Order>>;
-
-testRepo.then((result) => {
-  const client = {
-    location: {
-      address: "Avenida Jurumirim",
-      bairro: "Bela Vista",
-      casa: "30",
-      cep: "78050-194",
-      reference: "Any reference",
-    },
-    name: "Felipe Aguiar",
-    phone: "(65) 99239-1563",
-  };
-  const order_to_go = new Order(28, 8, -1, client, ["A"], "Dinheiro, troco para R$50", "1buyci51ol8t623t7");
-  const new_order = new CreateOrder(
-    order_to_go,
-    result.docs.map((file) => file.data())
-  );
-  new_order.execute();
-});

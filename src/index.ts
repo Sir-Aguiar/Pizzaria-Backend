@@ -1,4 +1,4 @@
-import { cyan, bgBlue } from "colors/safe";
+import { cyan } from "colors/safe";
 import { routes } from "./server/routes";
 import { express_app } from "./server/server";
 const port = process.env.PORT || 3333;
