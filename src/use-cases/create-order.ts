@@ -17,7 +17,14 @@ export class CreateOrder {
         bairro: orderData.client.location.bairro,
         casa: orderData.client.location.casa,
       };
-
+      if (orderData.id == order.id) {
+        throw new OrderError(
+          "You can't create and order with this ID",
+          "Unavaliable ID",
+          "The order you tried to create has it's id already taken",
+          new Error().stack
+        );
+      }
       if (orderData.client.phone === order.client.phone) {
         throw new OrderError(
           "This client is not avaible to make another order",
@@ -37,15 +44,13 @@ export class CreateOrder {
     });
   }
   public async execute() {
-    try {
-      return setDoc(doc(DB, "Orders", this.order.id), Object.assign({}, this.order));
-    } catch (e: any) {
-      // Error handling
-    }
+    const insertedOrder = Object.assign({}, this.order);
+    await setDoc(doc(DB, "Orders", this.order.id), insertedOrder);
+    return insertedOrder;
   }
 }
 
-/* const testRepo = getDocs(collection(DB, "Orders")) as Promise<QuerySnapshot<Order>>;
+const testRepo = getDocs(collection(DB, "Orders")) as Promise<QuerySnapshot<Order>>;
 
 testRepo.then((result) => {
   const client = {
@@ -59,11 +64,10 @@ testRepo.then((result) => {
     name: "Felipe Aguiar",
     phone: "(65) 99239-1563",
   };
-  const order_to_go = new Order(28, 8, -1, client, ["A"], "Dinheiro, troco para R$50");
+  const order_to_go = new Order(28, 8, -1, client, ["A"], "Dinheiro, troco para R$50", "1buyci51ol8t623t7");
   const new_order = new CreateOrder(
     order_to_go,
     result.docs.map((file) => file.data())
   );
   new_order.execute();
 });
- */
