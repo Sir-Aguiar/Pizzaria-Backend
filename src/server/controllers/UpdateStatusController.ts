@@ -40,9 +40,8 @@ export const UpdateStatusController = async (req: Request, res: Response) => {
       .status(404)
       .json({ e: "Invalid data has been recieved, or we're missing a few informations, check it, and try agin later" });
   } catch (e: any) {
-    // Errors on object instantiation
     if (e instanceof OrderError) {
-      return res.status(400).json({ e });
+      return res.status(400).json({ e: e.message });
     }
 
     if (e instanceof FirebaseError) {
@@ -55,7 +54,7 @@ export const UpdateStatusController = async (req: Request, res: Response) => {
 
         // Missing email
         if (error_infos[1] == "invalid-email") {
-          return res.status(400).json({ e: "Email is missing" });
+          return res.status(400).json({ e: "Missing email" });
         }
 
         // Invalid user
