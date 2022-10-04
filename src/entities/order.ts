@@ -9,9 +9,10 @@ export class Order {
     public client: Client,
     public items: string[],
     public payment_method: string,
-    private readonly _id: string
+    public readonly _id: string
   ) {
-    if (items.length <= 0) {
+
+    if (items.length <= 0 ) {
       throw new OrderError(
         "Cannot create an order without items to order",
         "No items",

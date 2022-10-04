@@ -3,14 +3,16 @@ import { isEqual } from "lodash";
 import { OrderError } from "../entities/order_error";
 import { doc, updateDoc } from "firebase/firestore";
 import { DB } from "../firebase";
-import { bgRed, bgYellow, green } from "colors/safe";
+import { bgYellow, green } from "colors/safe";
 
 export class UpdateOrder {
   constructor(private readonly order: Order, private readonly employee: EmployeeCredential) {}
   public async changeOrderStatus(new_status: number) {
+    // Functional code
     await updateDoc(doc(DB, "Orders", this.order.id), {
       status: new_status,
     });
+
     console.log(
       bgYellow(
         green(
@@ -28,9 +30,12 @@ export class UpdateOrder {
         new Error().stack
       );
     }
+
+    // Functional code
     await updateDoc(doc(DB, "Orders", this.order.id), {
       delivery: new_delivery,
     });
+
     console.log(
       bgYellow(
         green(

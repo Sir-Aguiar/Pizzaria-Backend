@@ -11,7 +11,6 @@ export const CreateOrderController = async (req: Request, res: Response) => {
 
   try {
     const new_order = new Order(items_price, delivery, status, client, items, payment_method, uniqid());
-
     const creation = new CreateOrder(new_order, orders_repo);
 
     try {
