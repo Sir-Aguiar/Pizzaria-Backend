@@ -10,7 +10,6 @@ export const UpdateDeliveryController = async (req: Request, res: Response) => {
   // Incoming data from request
   const { order_id, delivery } = req.body;
   const employee_name = req.header("employee") || "";
-
   try {
     const order_document = (await getDoc(doc(DB, "Orders", order_id))) as DocumentSnapshot<Order>;
     if (order_document.exists() && isNumber(delivery) && employee_name) {

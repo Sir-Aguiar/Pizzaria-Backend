@@ -14,3 +14,7 @@ declare interface Client {
 declare interface EmployeeCredential {
   name: string;
 }
+
+declare interface Item {
+  
+}

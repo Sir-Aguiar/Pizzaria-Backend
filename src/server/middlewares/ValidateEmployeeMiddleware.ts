@@ -10,11 +10,13 @@ const ValidateEmployeeMiddleware = async (req: Request, res: Response, next: Nex
 
   const employee_email = req.header("email") || "";
   const employee_password = req.header("password") || "";
-
   try {
     // Verifying employee credentials
     await signInWithEmailAndPassword(getAuth(firebase_app), employee_email, employee_password);
     console.log(`${employee_name} entry authorized at ${new Date().toLocaleString()}`);
+
+    res.cookie("user_token", `${employee_email}=${employee_password}=${employee_name}`, { httpOnly: true });
+
     next();
   } catch (error: any) {
     const e = error as FirebaseError;
