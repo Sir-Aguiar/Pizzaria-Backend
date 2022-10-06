@@ -1,5 +1,5 @@
-import { collection, doc, getDocs, QuerySnapshot, setDoc } from "firebase/firestore";
-import { isEqual, uniqueId } from "lodash";
+import { doc, setDoc } from "firebase/firestore";
+import { isEqual } from "lodash";
 import { Order } from "../entities/order";
 import { OrderError } from "../entities/order_error";
 import { DB } from "../firebase";

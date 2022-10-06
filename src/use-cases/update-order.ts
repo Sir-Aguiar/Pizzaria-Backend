@@ -1,5 +1,4 @@
 import { Order } from "../entities/order";
-import { isEqual } from "lodash";
 import { OrderError } from "../entities/order_error";
 import { doc, updateDoc } from "firebase/firestore";
 import { DB } from "../firebase";

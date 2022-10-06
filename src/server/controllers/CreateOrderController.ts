@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { getDocs, collection, QuerySnapshot } from "firebase/firestore";
+import { getDocs, collection } from "firebase/firestore";
 import { Order } from "../../entities/order";
 import { DB } from "../../firebase";
 import { CreateOrder } from "../../use-cases/create-order";
