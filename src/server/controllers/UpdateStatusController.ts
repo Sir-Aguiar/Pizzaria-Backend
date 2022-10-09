@@ -6,11 +6,12 @@ import { DB } from "../../firebase";
 import { UpdateOrder } from "../../use-cases/update-order";
 import { OrderError } from "../../entities/order_error";
 import { FirebaseError } from "firebase/app";
+import { decryptMessage } from "../../utils/crypto";
 
 export const UpdateStatusController = async (req: Request, res: Response) => {
   // Incoming data from request
   const { order_id, status } = req.body;
-  const employee_name = req.header("employee") || "";
+  const employee_name = decryptMessage(req.header("employee") || "");
   try {
     const order_document = (await getDoc(doc(DB, "Orders", order_id))) as DocumentSnapshot<Order>;
     // Verifying if the data is valid

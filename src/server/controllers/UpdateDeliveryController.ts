@@ -5,11 +5,13 @@ import { Order } from "../../entities/order";
 import { isNumber } from "lodash";
 import { UpdateOrder } from "../../use-cases/update-order";
 import { OrderError } from "../../entities/order_error";
+import { decryptMessage } from "../../utils/crypto";
 
 export const UpdateDeliveryController = async (req: Request, res: Response) => {
   // Incoming data from request
   const { order_id, delivery } = req.body;
-  const employee_name = req.header("employee") || "";
+  const employee_name = decryptMessage(req.header("employee") || "");
+
   try {
     const order_document = (await getDoc(doc(DB, "Orders", order_id))) as DocumentSnapshot<Order>;
     if (order_document.exists() && isNumber(delivery) && employee_name) {
