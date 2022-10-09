@@ -1,7 +1,6 @@
 import CryptoJS from "crypto-js";
 import "dotenv/config";
 const secretKey = process.env.SECRETKEY!;
-const message = "Hello, Felipe!";
 
 const encryptMessage = (text: string) => CryptoJS.AES.encrypt(text, secretKey);
 
