@@ -7,17 +7,18 @@ import { decryptMessage, encryptMessage } from "../../utils/crypto";
 const RoutesForValidation = ["/update-status", "/update-delivery"];
 
 const ValidateEmployeeMiddleware = async (req: Request, res: Response, next: NextFunction) => {
-  const header_name = req.header("employee") || "";
-  const header_email = req.header("email") || "";
-  const header_password = req.header("password") || "";
   try {
     // Verifying employee credentials
-    const employee_email = decryptMessage(header_email);
-    const employee_password = decryptMessage(header_password);
-    const employee_name = decryptMessage(header_name);
-    await signInWithEmailAndPassword(getAuth(firebase_app), employee_email, employee_password);
-    console.log(`${employee_name} entry authorized at ${new Date().toLocaleString()}`);
-    console.log(req.cookies);
+    const { user_credential } = req.cookies;
+    const credential: string[] = user_credential.split("^/^");
+    decryptMessage(credential[0])
+    const [emp_name, email, password] = [
+      decryptMessage(credential[0]),
+      decryptMessage(credential[1]),
+      decryptMessage(credential[2]),
+    ];
+    await signInWithEmailAndPassword(getAuth(firebase_app), email, password);
+    console.log(`${emp_name} entry authorized at ${new Date().toLocaleString()}`);
     next();
   } catch (error: any) {
     const e = error as FirebaseError;
