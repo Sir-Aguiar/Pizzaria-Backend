@@ -16,7 +16,6 @@ const ValidateEmployeeMiddleware = async (req: Request, res: Response, next: Nex
 
     await signInWithEmailAndPassword(getAuth(firebase_app), email, password);
     console.log(`${emp_name} entry authorized at ${new Date().toLocaleString()}`);
-    res.cookie("user_credential", encryptMessage(`${emp_name}^/^${email}^/^${password}`));
 
     next();
   } catch (e: any) {
