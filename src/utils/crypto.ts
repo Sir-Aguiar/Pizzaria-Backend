@@ -8,5 +8,6 @@ const decryptMessage = (text: CryptoJS.lib.CipherParams | string) => {
   const bytes = CryptoJS.AES.decrypt(text, secretKey);
   return bytes.toString(CryptoJS.enc.Utf8);
 };
-export { encryptMessage, decryptMessage };
 
+
+export { encryptMessage, decryptMessage };
