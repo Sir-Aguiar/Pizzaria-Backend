@@ -4,7 +4,7 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { firebase_app } from "../../firebase";
 import { decryptMessage } from "../../utils/crypto";
 
-const RoutesForValidation = ["/update-status", "/update-delivery"];
+const RoutesForValidation = ["/update-status", "/update-delivery", "/get-items"];
 
 const ValidateEmployeeMiddleware = async (req: Request, res: Response, next: NextFunction) => {
   try {
