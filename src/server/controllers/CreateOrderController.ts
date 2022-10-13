@@ -6,13 +6,14 @@ import { CreateOrder } from "../../use-cases/create-order";
 import uniqid from "uniqid";
 import { OrderError } from "../../entities/order_error";
 import { FirebaseError } from "firebase/app";
+import { getOrdersPrice } from "../../utils/get-orders-price";
 
 export const CreateOrderController = async (req: Request, res: Response) => {
-  const { items_price, delivery, status, client, items, payment_method } = req.body;
+  const {delivery, status, client, items, payment_method } = req.body;
   const orders_repo = (await getDocs(collection(DB, "Orders"))).docs.map((ord) => ord.data()) as Order[];
 
   try {
-    const new_order = new Order(items_price, delivery, status, client, items, payment_method, uniqid());
+    const new_order = new Order(await getOrdersPrice(items), delivery, status, client, items, payment_method, uniqid());
     const creation = new CreateOrder(new_order, orders_repo);
 
     const inserted_order = await creation.execute();

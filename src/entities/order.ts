@@ -11,8 +11,7 @@ export class Order {
     public payment_method: string,
     public readonly _id: string
   ) {
-
-    if (items.length <= 0 ) {
+    if (items.length <= 0) {
       throw new OrderError(
         "Cannot create an order without items to order",
         "No items",
@@ -45,6 +44,14 @@ export class Order {
         "Insert a payment method",
         "Invalid payment",
         "Tried to instantiate and Order object with invalid payment_method",
+        new Error().stack
+      );
+    }
+    if (items_price === 0 || typeof items_price != "number") {
+      throw new OrderError(
+        "Insert valid items, so it can be correctly priced",
+        "Invalid items price",
+        "Tried to get items wich are no registered",
         new Error().stack
       );
     }
