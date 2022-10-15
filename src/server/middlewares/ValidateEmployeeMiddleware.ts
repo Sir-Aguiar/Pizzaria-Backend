@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { FirebaseError } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { firebase_app } from "../../firebase";
-import { decryptMessage, encryptMessage, getCredentialsInfos } from "../../utils/crypto";
+import { encryptMessage, getCredentialsInfos } from "../../utils/crypto";
 
 const RoutesForValidation = ["/update-status", "/update-delivery", "/get-items"];
 
@@ -15,7 +15,8 @@ const ValidateEmployeeMiddleware = async (req: Request, res: Response, next: Nex
 
     await signInWithEmailAndPassword(getAuth(firebase_app), email, password);
     console.log(`${name} entry authorized at ${new Date().toLocaleString()}`);
-
+    res.clearCookie("user_credential");
+    res.cookie("user_credential", encryptMessage(`${name}^/^${email}^/^${password}`).toString());
     next();
   } catch (e: any) {
     if (e instanceof FirebaseError) {

@@ -5,14 +5,12 @@ import { Order } from "../../entities/order";
 import { isNumber } from "lodash";
 import { UpdateOrder } from "../../use-cases/update-order";
 import { OrderError } from "../../entities/order_error";
-import { decryptMessage } from "../../utils/crypto";
+import { getCredentialsInfos } from "../../utils/crypto";
 
 export const UpdateDeliveryController = async (req: Request, res: Response) => {
   // Incoming data from request
   const { order_id, delivery } = req.body;
-  const { user_credential } = req.cookies;
-  const credential: string[] = user_credential.split("^/^");
-  const name = decryptMessage(credential[0]);
+  const { name } = getCredentialsInfos(req.cookies.user_credential);
   try {
     const order_document = (await getDoc(doc(DB, "Orders", order_id))) as DocumentSnapshot<Order>;
     if (order_document.exists() && isNumber(delivery) && name) {

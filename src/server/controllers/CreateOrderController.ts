@@ -9,10 +9,11 @@ import { FirebaseError } from "firebase/app";
 import { getOrdersPrice } from "../../utils/get-orders-price";
 
 export const CreateOrderController = async (req: Request, res: Response) => {
-  const {delivery, status, client, items, payment_method } = req.body;
-  const orders_repo = (await getDocs(collection(DB, "Orders"))).docs.map((ord) => ord.data()) as Order[];
+  const { delivery, status, client, items, payment_method } = req.body;
 
   try {
+    const orders_repo = (await getDocs(collection(DB, "Orders"))).docs.map((ord) => ord.data()) as Order[];
+    // Objects instances
     const new_order = new Order(await getOrdersPrice(items), delivery, status, client, items, payment_method, uniqid());
     const creation = new CreateOrder(new_order, orders_repo);
 
@@ -25,7 +26,6 @@ export const CreateOrderController = async (req: Request, res: Response) => {
         error: e.props,
       });
     }
-    // Errors in new CreateOrder().execute()
     if (e instanceof FirebaseError) {
       return res.status(500).json(e);
     }

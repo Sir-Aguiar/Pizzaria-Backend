@@ -6,7 +6,7 @@ import { DB } from "../../firebase";
 import { UpdateOrder } from "../../use-cases/update-order";
 import { OrderError } from "../../entities/order_error";
 import { FirebaseError } from "firebase/app";
-import { decryptMessage, getCredentialsInfos } from "../../utils/crypto";
+import { getCredentialsInfos } from "../../utils/crypto";
 
 export const UpdateStatusController = async (req: Request, res: Response) => {
   // Incoming data from request
@@ -22,7 +22,6 @@ export const UpdateStatusController = async (req: Request, res: Response) => {
       });
     }
 
-    // Functional code
     const data = order_document.data()!;
     const order = new Order(
       data.items_price,
@@ -33,6 +32,8 @@ export const UpdateStatusController = async (req: Request, res: Response) => {
       data.payment_method,
       data._id
     );
+
+    // Functional code
     const updater = new UpdateOrder(order, { name });
     await updater.changeOrderStatus(status);
     return res.status(200).send();
