@@ -3,6 +3,7 @@ import cors from "cors";
 import { RoutesForValidation, ValidateEmployeeMiddleware } from "./middlewares/ValidateEmployeeMiddleware";
 import cookieParser from "cookie-parser";
 const express_app = express();
+
 express_app.use(json());
 express_app.use(cors({ origin: "*" }));
 express_app.use(cookieParser());

@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { FirebaseError } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { firebase_app } from "../../firebase";
-import { decryptMessage, encryptMessage } from "../../utils/crypto";
+import { decryptMessage, encryptMessage, getCredentialsInfos } from "../../utils/crypto";
 
 const RoutesForValidation = ["/update-status", "/update-delivery", "/get-items"];
 
@@ -11,11 +11,10 @@ const ValidateEmployeeMiddleware = async (req: Request, res: Response, next: Nex
     // Verifying employee credentials
     const { user_credential } = req.cookies;
 
-    const credential: string[] = decryptMessage(user_credential).split("^/^");
-    const [emp_name, email, password] = [credential[0], credential[1], credential[2]];
+    const { name, email, password } = getCredentialsInfos(user_credential);
 
     await signInWithEmailAndPassword(getAuth(firebase_app), email, password);
-    console.log(`${emp_name} entry authorized at ${new Date().toLocaleString()}`);
+    console.log(`${name} entry authorized at ${new Date().toLocaleString()}`);
 
     next();
   } catch (e: any) {
