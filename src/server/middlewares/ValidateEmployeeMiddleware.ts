@@ -1,10 +1,10 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, request, Request, Response } from "express";
 import { FirebaseError } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { firebase_app } from "../../firebase";
 import { encryptMessage, getCredentialsInfos } from "../../utils/crypto";
 
-const RoutesForValidation = ["/update-status", "/update-delivery", "/get-items"];
+const RoutesForValidation = ["/update-status", "/update-delivery"];
 
 const ValidateEmployeeMiddleware = async (req: Request, res: Response, next: NextFunction) => {
   try {

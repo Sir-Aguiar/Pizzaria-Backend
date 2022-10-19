@@ -16,7 +16,8 @@ declare interface EmployeeCredential {
 }
 
 declare interface Item {
-  _id: string;
-  price: number;
-  name: string;
+  _id:string;
+  name:string;
+  price:number;
+  image:string;
 }
