@@ -1,0 +1,14 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.routes = void 0;
+const express_1 = require("express");
+const CreateOrderController_1 = require("./controllers/CreateOrderController");
+const UpdateDeliveryController_1 = require("./controllers/UpdateDeliveryController");
+const UpdateStatusController_1 = require("./controllers/UpdateStatusController");
+const GetItemsController_1 = require("./controllers/GetItemsController");
+const routes = (0, express_1.Router)();
+exports.routes = routes;
+routes.post("/create-order", CreateOrderController_1.CreateOrderController);
+routes.put("/update-delivery", UpdateDeliveryController_1.UpdateDeliveryController);
+routes.put("/update-status", UpdateStatusController_1.UpdateStatusController);
+routes.get('/get-items', GetItemsController_1.GetItemsController);
