@@ -10,11 +10,11 @@ const decryptMessage = (text: CryptoJS.lib.CipherParams | string) => {
 };
 
 const getCredentialsInfos = (user_credential: string) => {
-  const decrypted_info = decryptMessage(user_credential).split("^/^");
+  const [name, email, password] = decryptMessage(user_credential).split("^/^");
   return {
-    name: decrypted_info[0],
-    email: decrypted_info[1],
-    password: decrypted_info[2],
+    name,
+    email,
+    password,
   };
 };
 
