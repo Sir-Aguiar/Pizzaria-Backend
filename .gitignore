@@ -3,3 +3,4 @@ node_modules/
 src/**/*.spec.ts
 testing-code.ts
 crypto.ts
+build/
