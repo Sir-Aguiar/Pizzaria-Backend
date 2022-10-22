@@ -37,7 +37,6 @@ const ValidateEmployeeMiddleware = async (req: Request, res: Response, next: Nex
           // Missing email
           case "invalid-email":
             return res.status(400).json({ e: "Missing email" });
-
           // Invalid user
           default:
             return res.status(401).json({ e: "This user is not allowed to consume our services" });
