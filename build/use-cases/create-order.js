@@ -19,12 +19,15 @@ class CreateOrder {
                 bairro: orderData.client.location.bairro,
                 casa: orderData.client.location.casa,
             };
+            // Redundant id check
             if (orderData.id == order.id) {
                 throw new order_error_1.OrderError("You can't create and order with this ID", "Unavaliable ID", "The order you tried to create has it's id already taken", new Error().stack);
             }
+            // Checking if clients are unique
             if (orderData.client.phone === order.client.phone) {
                 throw new order_error_1.OrderError("This client is not avaible to make another order", "Unavaliable client", "The same client can't make more than one order", new Error().stack);
             }
+            // Checking location valiability
             if ((0, lodash_1.isEqual)(repoLocationForCheck, orderLocationForCheck)) {
                 throw new order_error_1.OrderError("This location has already an order attached", "Unavaliable location", "Can't have more than two orders to the same address", new Error().stack);
             }

@@ -1,24 +1,30 @@
-import { NextFunction, request, Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { FirebaseError } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { firebase_app } from "../../firebase";
-import { encryptMessage, getCredentialsInfos } from "../../utils/crypto";
+import { getCredentialsInfos } from "../../utils/credentials-utils";
+import { encryptMessage } from "../../utils/crypto";
 
 const RoutesForValidation = ["/update-status", "/update-delivery"];
 
 const ValidateEmployeeMiddleware = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    // Verifying employee credentials
+    // Getting the employee data
     const { user_credential } = req.cookies;
-
     const { name, email, password } = getCredentialsInfos(user_credential);
 
+    // Verifying  the employee
     await signInWithEmailAndPassword(getAuth(firebase_app), email, password);
-    console.log(`${name} entry authorized at ${new Date().toLocaleString()}`);
+
+    // Reseting the credential cookie
     res.clearCookie("user_credential");
     res.cookie("user_credential", encryptMessage(`${name}^/^${email}^/^${password}`).toString());
+
+    console.log(`${name} entry authorized at ${new Date().toLocaleString()}`);
+
     next();
   } catch (e: any) {
+    // Firebase error handling
     if (e instanceof FirebaseError) {
       const error_infos = e.code.split("/");
 
@@ -46,6 +52,8 @@ const ValidateEmployeeMiddleware = async (req: Request, res: Response, next: Nex
       // Unknown error
       return res.status(510).json({ e: "An unknown error has been occurred during the execution of a functionality" });
     }
+
+    // Unexpected type
     if (e instanceof TypeError) {
       return res.status(400).json({ e: { message: "Invalid cookies has been received" } });
     }

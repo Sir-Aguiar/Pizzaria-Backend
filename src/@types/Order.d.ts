@@ -12,7 +12,8 @@ declare interface Client {
   location: Locale;
 }
 declare interface EmployeeCredential {
-  name: string;
+  email:string;
+  password:string;
 }
 
 declare interface Item {

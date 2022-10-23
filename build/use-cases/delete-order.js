@@ -11,7 +11,7 @@ class DeleteOrder {
     }
     async execute() {
         await (0, firestore_1.deleteDoc)((0, firestore_1.doc)(firebase_1.DB, "Orders", this.order_id));
-        console.log((0, safe_1.bgYellow)((0, safe_1.green)(`${this.employee.name} deleted the order ${this.order_id}`)));
+        console.log((0, safe_1.bgYellow)((0, safe_1.green)(`${this.employee} deleted the order ${this.order_id}`)));
     }
 }
 exports.DeleteOrder = DeleteOrder;

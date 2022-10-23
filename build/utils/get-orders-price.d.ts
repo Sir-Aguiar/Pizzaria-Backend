@@ -1,1 +1,1 @@
-export declare const getOrdersPrice: (items: string[]) => Promise<number>;
+export declare const getOrdersPrice: (items_ids: string[]) => Promise<number>;

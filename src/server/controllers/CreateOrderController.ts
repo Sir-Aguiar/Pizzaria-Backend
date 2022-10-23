@@ -9,9 +9,8 @@ import { FirebaseError } from "firebase/app";
 import { getOrdersPrice } from "../../utils/get-orders-price";
 
 export const CreateOrderController = async (req: Request, res: Response) => {
-  const { delivery, status, client, items, payment_method } = req.body;
-
   try {
+    const { delivery, status, client, items, payment_method } = req.body;
     const orders_repo = (await getDocs(collection(DB, "Orders"))).docs.map((ord) => ord.data()) as Order[];
     // Objects instances
     const new_order = new Order(await getOrdersPrice(items), delivery, status, client, items, payment_method, uniqid());
@@ -22,6 +21,7 @@ export const CreateOrderController = async (req: Request, res: Response) => {
   } catch (e: any) {
     if (e instanceof OrderError) {
       e.logIt();
+      e.register();
       return res.status(400).json({
         error: e.props,
       });

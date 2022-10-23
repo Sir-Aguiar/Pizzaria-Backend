@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DB = exports.firebase_app = void 0;
+require("dotenv/config");
 const app_1 = require("firebase/app");
 const firestore_1 = require("firebase/firestore");
-require("dotenv/config");
 const firebase_app = (0, app_1.initializeApp)({
     apiKey: process.env.APIKEY,
     appId: process.env.APPID,

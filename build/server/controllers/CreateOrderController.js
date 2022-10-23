@@ -13,8 +13,8 @@ const order_error_1 = require("../../entities/order_error");
 const app_1 = require("firebase/app");
 const get_orders_price_1 = require("../../utils/get-orders-price");
 const CreateOrderController = async (req, res) => {
-    const { delivery, status, client, items, payment_method } = req.body;
     try {
+        const { delivery, status, client, items, payment_method } = req.body;
         const orders_repo = (await (0, firestore_1.getDocs)((0, firestore_1.collection)(firebase_1.DB, "Orders"))).docs.map((ord) => ord.data());
         // Objects instances
         const new_order = new order_1.Order(await (0, get_orders_price_1.getOrdersPrice)(items), delivery, status, client, items, payment_method, (0, uniqid_1.default)());
@@ -25,6 +25,7 @@ const CreateOrderController = async (req, res) => {
     catch (e) {
         if (e instanceof order_error_1.OrderError) {
             e.logIt();
+            e.register();
             return res.status(400).json({
                 error: e.props,
             });

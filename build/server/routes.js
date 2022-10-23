@@ -11,4 +11,4 @@ exports.routes = routes;
 routes.post("/create-order", CreateOrderController_1.CreateOrderController);
 routes.put("/update-delivery", UpdateDeliveryController_1.UpdateDeliveryController);
 routes.put("/update-status", UpdateStatusController_1.UpdateStatusController);
-routes.get('/get-items', GetItemsController_1.GetItemsController);
+routes.get("/get-items", GetItemsController_1.GetItemsController);

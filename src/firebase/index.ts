@@ -1,6 +1,6 @@
+import "dotenv/config";
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import 'dotenv/config'
 const firebase_app = initializeApp({
   apiKey: process.env.APIKEY,
   appId: process.env.APPID,

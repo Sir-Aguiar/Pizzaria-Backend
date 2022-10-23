@@ -4,21 +4,25 @@ exports.ValidateEmployeeMiddleware = exports.RoutesForValidation = void 0;
 const app_1 = require("firebase/app");
 const auth_1 = require("firebase/auth");
 const firebase_1 = require("../../firebase");
+const credentials_utils_1 = require("../../utils/credentials-utils");
 const crypto_1 = require("../../utils/crypto");
 const RoutesForValidation = ["/update-status", "/update-delivery"];
 exports.RoutesForValidation = RoutesForValidation;
 const ValidateEmployeeMiddleware = async (req, res, next) => {
     try {
-        // Verifying employee credentials
+        // Getting the employee data
         const { user_credential } = req.cookies;
-        const { name, email, password } = (0, crypto_1.getCredentialsInfos)(user_credential);
+        const { name, email, password } = (0, credentials_utils_1.getCredentialsInfos)(user_credential);
+        // Verifying  the employee
         await (0, auth_1.signInWithEmailAndPassword)((0, auth_1.getAuth)(firebase_1.firebase_app), email, password);
-        console.log(`${name} entry authorized at ${new Date().toLocaleString()}`);
+        // Reseting the credential cookie
         res.clearCookie("user_credential");
         res.cookie("user_credential", (0, crypto_1.encryptMessage)(`${name}^/^${email}^/^${password}`).toString());
+        console.log(`${name} entry authorized at ${new Date().toLocaleString()}`);
         next();
     }
     catch (e) {
+        // Firebase error handling
         if (e instanceof app_1.FirebaseError) {
             const error_infos = e.code.split("/");
             // Errors on function release
@@ -42,6 +46,7 @@ const ValidateEmployeeMiddleware = async (req, res, next) => {
             // Unknown error
             return res.status(510).json({ e: "An unknown error has been occurred during the execution of a functionality" });
         }
+        // Unexpected type
         if (e instanceof TypeError) {
             return res.status(400).json({ e: { message: "Invalid cookies has been received" } });
         }

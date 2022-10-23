@@ -9,13 +9,6 @@ const decryptMessage = (text: CryptoJS.lib.CipherParams | string) => {
   return bytes.toString(CryptoJS.enc.Utf8);
 };
 
-const getCredentialsInfos = (user_credential: string) => {
-  const [name, email, password] = decryptMessage(user_credential).split("^/^");
-  return {
-    name,
-    email,
-    password,
-  };
-};
 
-export { encryptMessage, decryptMessage, getCredentialsInfos };
+
+export { encryptMessage, decryptMessage };

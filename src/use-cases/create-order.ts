@@ -17,6 +17,8 @@ export class CreateOrder {
         bairro: orderData.client.location.bairro,
         casa: orderData.client.location.casa,
       };
+
+      // Redundant id check
       if (orderData.id == order.id) {
         throw new OrderError(
           "You can't create and order with this ID",
@@ -25,6 +27,8 @@ export class CreateOrder {
           new Error().stack
         );
       }
+
+      // Checking if clients are unique
       if (orderData.client.phone === order.client.phone) {
         throw new OrderError(
           "This client is not avaible to make another order",
@@ -33,6 +37,8 @@ export class CreateOrder {
           new Error().stack
         );
       }
+
+      // Checking location valiability
       if (isEqual(repoLocationForCheck, orderLocationForCheck)) {
         throw new OrderError(
           "This location has already an order attached",
